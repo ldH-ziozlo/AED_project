@@ -5,11 +5,11 @@ import numpy as np
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import streamlit as st
-
+import matplotlib.font_manager as fm
 from config import AED_FILE, RESULT_DIR, ACCESS_DISTANCES
 
 
-plt.rcParams["font.family"] = "AppleGothic"
+plt.rcParams["font.family"] = "NanumGothic"
 plt.rcParams["axes.unicode_minus"] = False
 
 
