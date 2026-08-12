@@ -5,7 +5,6 @@ import numpy as np
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import streamlit as st
-import matplotlib.font_manager as fm
 from config import AED_FILE, RESULT_DIR, ACCESS_DISTANCES
 
 
