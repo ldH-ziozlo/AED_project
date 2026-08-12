@@ -3,11 +3,3 @@ __pycache__/
 *.pyc
 .DS_Store
 .env
-
-data_set/02_집계구경계/
-data_set/03_집계구인구/
-data_set/04_100M격자인구/
-data_set/05_100M격자경계/
-
-data_set/07_분석결과/전국_집계구별_AED_접근성.gpkg
-data_set/07_분석결과/집계구별_AED_접근성.gpkg
