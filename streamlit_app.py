@@ -8,11 +8,14 @@ import streamlit as st
 from config import AED_FILE, RESULT_DIR, ACCESS_DISTANCES
 import matplotlib.font_manager as fm
 
-font_path = "/usr/share/fonts/truetype/nanum/NanumGothic.ttf"
+fm.fontManager.addfont("/usr/share/fonts/truetype/nanum/NanumGothic.ttf")
 
-plt.rcParams["font.family"] = fm.FontProperties(fname=font_path).get_name()
+plt.rcParams["font.family"] = "NanumGothic"
 plt.rcParams["axes.unicode_minus"] = False
 
+plt.rcParams["font.family"] = "NanumGothic"
+plt.rcParams["axes.unicode_minus"] = False
+st.write(fm.findSystemFonts())
 
 st.set_page_config(page_title='AED 접근성 분석', layout='wide')
 
