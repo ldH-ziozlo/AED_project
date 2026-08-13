@@ -361,8 +361,8 @@ else:
     unique_aed_count = current_district['AED고유설치지점수'].sum()
 
 
-k1, k2, k3, k4 = st.columns(4)
-k5, k6, k7 = st.columns(3)
+k1, k2, k3 = st.columns(4)
+k4, k5, k6 = st.columns(3)
 
 k1.metric('분석대상 인구', f'{total_population:,.0f}명')
 
@@ -370,13 +370,12 @@ k2.metric(f'{distance}m 접근 가능 인구', f'{access_population:,.0f}명')
 
 k3.metric(f'{distance}m 접근률', f'{access_rate:.1f}%' if pd.notna(access_rate) else '-')
 
-k4.metric(f'{distance}m 미접근 인구', f'{unaccess_population:,.0f}명')
 
-k5.metric('AED 설치 대수', f'{aed_count:,.0f}대')
+k4.metric('AED 설치 대수', f'{aed_count:,.0f}대')
 
-k6.metric('고유 AED 설치지점', f'{unique_aed_count:,.0f}곳')
+k5.metric('고유 AED 설치지점', f'{unique_aed_count:,.0f}곳')
 
-k7.metric('평균 최근접 AED 거리', f'{average_distance:.0f}m' if pd.notna(average_distance) else '-')
+k6.metric('평균 최근접 AED 거리', f'{average_distance:.0f}m' if pd.notna(average_distance) else '-')
 
 st.divider()
 
@@ -422,6 +421,7 @@ with right_col:
 st.divider()
 
 st.metric('65세 이상 인구', f'{elderly_population:,.0f}명')
+st.metric(f'{distance}m 미접근 인구', f'{unaccess_population:,.0f}명')
 
 st.divider()
 
