@@ -154,6 +154,8 @@ def draw_access_bar(data, rate_column, name_column, title,):
 
     chart = data[[name_column, rate_column]].dropna().copy()
 
+    cividis_yellow = plt.get_cmap("cividis")(0.85)
+
     chart = chart.sort_values(rate_column, ascending=True)
 
     if chart.empty:
@@ -171,8 +173,7 @@ def draw_access_bar(data, rate_column, name_column, title,):
     axis_min = max(0, axis_min)
 
     fig, ax = plt.subplots(figsize=(6.5, 5.2))
-
-    ax.barh(chart[name_column], chart[rate_column])
+    ax.barh(chart[name_column], chart[rate_column], color=cividis_yellow)
 
     ax.set_xlim(axis_min, 100)
 
