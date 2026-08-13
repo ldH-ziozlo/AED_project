@@ -220,54 +220,24 @@ def draw_priority_map(data, label_column, title,):
     return fig
 
 def draw_priority_bar(data, name_column, title, top_n):
-    score_cols = [
-        "접근성취약점수",
-        "미접근인구점수",
-        "인구점수",
-        "고령인구점수",
-    ]
 
-    score_labels = [
-        "접근 취약성",
-        "미접근 인구",
-        "전체 인구",
-        "고령 인구",
-    ]
+    score_cols = ["접근성취약점수", "미접근인구점수", "인구점수", "고령인구점수",]
 
-    # 실제 존재하는 점수 컬럼만 사용
-    available_cols = [
-        col for col in score_cols
-        if col in data.columns
-    ]
+    score_labels = ["접근 취약성", "미접근 인구", "전체 인구", "고령 인구",]
+
+    available_cols = [col for col in score_cols if col in data.columns]
 
     if not available_cols:
         return None
 
-    chart = data[
-        [name_column, "우선검토점수"] + available_cols
-    ].dropna(
-        subset=[name_column, "우선검토점수"]
-    ).copy()
+    chart = data[[name_column, "우선검토점수"] + available_cols].dropna(subset=[name_column, "우선검토점수"]).copy()
 
-    # 우선검토점수 TOP N
-    chart = (
-        chart
-        .sort_values("우선검토점수", ascending=False)
-        .head(top_n)
-        .sort_values("우선검토점수", ascending=True)
-    )
+    chart = (chart.sort_values("우선검토점수", ascending=False).head(top_n).sort_values("우선검토점수", ascending=True))
 
     if chart.empty:
-        return None
 
-    # -----------------------------------------------------
-    # 각 요소의 최종 점수 기여도 계산
-    #
-    # 현재 우선검토점수 =
-    # 각 점수 평균 × 100
-    #
-    # 4개 지표라면 각각 최대 25점
-    # -----------------------------------------------------
+        return None
+    
     weight = 100 / len(available_cols)
 
     contribution_cols = []
@@ -277,61 +247,35 @@ def draw_priority_bar(data, name_column, title, top_n):
         chart[contribution_col] = chart[col] * weight
         contribution_cols.append(contribution_col)
 
-    # -----------------------------------------------------
-    # 그래프
-    # -----------------------------------------------------
     fig, ax = plt.subplots(figsize=(7.5, 6))
 
     left = np.zeros(len(chart))
 
-    # cividis에서 4개 색상 추출
     cmap = plt.get_cmap("cividis")
+
     colors = np.linspace(0.15, 0.9, len(available_cols))
 
-    for col, label, color_value in zip(
-        contribution_cols,
-        [
-            score_labels[score_cols.index(col.replace("_기여도", ""))]
-            for col in contribution_cols
-        ],
-        colors,
-    ):
+    for col, label, color_value in zip(contribution_cols,[score_labels[score_cols.index(col.replace("_기여도", ""))] for col in contribution_cols], colors,):
+
         values = chart[col].to_numpy()
 
-        ax.barh(
-            chart[name_column],
-            values,
-            left=left,
-            label=label,
-            color=cmap(color_value),
-        )
+        ax.barh(chart[name_column], values, left=left, label=label, color=cmap(color_value),)
 
         left += values
 
-    # 최종 점수 표시
+    
     for i, score in enumerate(chart["우선검토점수"]):
-        ax.text(
-            score + 0.8,
-            i,
-            f"{score:.1f}",
-            va="center",
-            fontsize=8,
-        )
+        ax.text(score + 0.8, i, f"{score:.1f}", va="center", fontsize=8,)
 
     ax.set_xlim(0, 100)
+
     ax.set_xlabel("우선검토점수")
+
     ax.set_title(title, fontsize=12)
 
-    ax.legend(
-        title="평가요소",
-        bbox_to_anchor=(1.02, 1),
-        loc="upper left",
-    )
+    ax.legend(title="평가요소", bbox_to_anchor=(1.02, 1), loc="upper left",)
 
-    ax.grid(
-        axis="x",
-        alpha=0.2,
-    )
+    ax.grid(axis="x", alpha=0.2,)
 
     plt.tight_layout()
 
@@ -472,7 +416,7 @@ with right_col:
 
         access_bar_title = f'{selected_district} 행정동별 AED {distance}m 접근률'
 
-    access_bar_fig = draw_access_bar(data=access_bar_data, rate_column=rate_col, name_column=access_bar_name, title=access_bar_title)
+    access_bar_fig = draw_access_bar(data=access_bar_data, rate_column=rate_col, name_column=access_bar_name, title=access_bar_title, cividis_yellow = plt.get_cmap("cividis")(0.85))
 
     if access_bar_fig is not None:
 
