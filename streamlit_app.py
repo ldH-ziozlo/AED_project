@@ -361,7 +361,7 @@ else:
     unique_aed_count = current_district['AED고유설치지점수'].sum()
 
 
-k1, k2, k3 = st.columns(4)
+k1, k2, k3 = st.columns(3)
 k4, k5, k6 = st.columns(3)
 
 k1.metric('분석대상 인구', f'{total_population:,.0f}명')
