@@ -419,9 +419,10 @@ with right_col:
 
 
 st.divider()
+k7, k8 = st.columns(2)
 
-st.metric('65세 이상 인구', f'{elderly_population:,.0f}명')
-st.metric(f'{distance}m 미접근 인구', f'{unaccess_population:,.0f}명')
+k7.metric('65세 이상 인구', f'{elderly_population:,.0f}명')
+k8.metric(f'{distance}m 미접근 인구', f'{unaccess_population:,.0f}명')
 
 st.divider()
 
