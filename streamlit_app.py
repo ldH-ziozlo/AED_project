@@ -438,7 +438,7 @@ if selected_district == "서울 전체":
 
     priority_bar_name = '지역명'
 
-    priority_top_n = 20
+    priority_top_n = 10
 
 else:
 
