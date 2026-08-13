@@ -252,7 +252,7 @@ def draw_priority_bar(data, name_column, title, top_n):
 
     left = np.zeros(len(chart))
 
-    cmap = plt.get_cmap("cividis")
+    cmap = plt.get_cmap("cividis_r")
 
     colors = np.linspace(0.15, 0.9, len(available_cols))
 
