@@ -205,7 +205,7 @@ def draw_priority_map(data, label_column, title,):
 
     fig, ax = plt.subplots(figsize=(6.5, 6))
 
-    map_data.plot(column="우선검토점수", cmap="cividis", legend=True, ax=ax, edgecolor="white", linewidth=0.6,
+    map_data.plot(column="우선검토점수", cmap="cividis_r", legend=True, ax=ax, edgecolor="white", linewidth=0.6,
         vmin=color_min, vmax=100, legend_kwds={"label" : "우선검토점수", "shrink" : 0.65,},
     )
 
@@ -460,8 +460,7 @@ with priority_left:
     priority_map_fig = draw_priority_map(
         data=priority_map_data,
         label_column=priority_map_label,
-        title=(
-            f"{selected_district} " "AED 설치 우선 검토점수"),)
+        title=(f"{selected_district} " "AED 설치 우선 검토점수"),)
 
     if priority_map_fig is not None:
 
