@@ -7,3 +7,6 @@ shapely
 pyogrio
 openpyxl
 scipy
+
+
+#ppt 만들어야 하는데 너가 만들어줄 수 있어?? 혹시 코드랑 기획서 같은거 
