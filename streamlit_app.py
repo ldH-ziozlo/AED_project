@@ -10,16 +10,12 @@ import matplotlib.font_manager as fm
 
 font_path = "/usr/share/fonts/truetype/nanum/NanumGothic.ttf"
 fm.fontManager.addfont(font_path)
-
 plt.rcParams["font.family"] = "NanumGothic"
 plt.rcParams["axes.unicode_minus"] = False
 
-
 st.set_page_config(page_title='AED 접근성 분석', layout='wide')
 
-
 st.title('AED 접근성 기반 배치 취약지역 분석')
-
 
 st.header('분석 해석 시 고려사항')
 
@@ -223,33 +219,119 @@ def draw_priority_map(data, label_column, title,):
 
     return fig
 
-def draw_priority_bar(data, name_column, title, top_n,):
+def draw_priority_bar(data, name_column, title, top_n):
+    score_cols = [
+        "접근성취약점수",
+        "미접근인구점수",
+        "인구점수",
+        "고령인구점수",
+    ]
 
-    chart = data[[name_column, '우선검토점수']].dropna().copy()
+    score_labels = [
+        "접근 취약성",
+        "미접근 인구",
+        "전체 인구",
+        "고령 인구",
+    ]
 
-    chart = chart.sort_values('우선검토점수', ascending=False).head(top_n).sort_values('우선검토점수', ascending=True)
+    # 실제 존재하는 점수 컬럼만 사용
+    available_cols = [
+        col for col in score_cols
+        if col in data.columns
+    ]
 
-    if chart.empty:
-
+    if not available_cols:
         return None
 
-    min_score = chart['우선검토점수'].min()
+    chart = data[
+        [name_column, "우선검토점수"] + available_cols
+    ].dropna(
+        subset=[name_column, "우선검토점수"]
+    ).copy()
 
-    axis_min = math.floor(min_score / 10) * 10
+    # 우선검토점수 TOP N
+    chart = (
+        chart
+        .sort_values("우선검토점수", ascending=False)
+        .head(top_n)
+        .sort_values("우선검토점수", ascending=True)
+    )
 
-    axis_min = max(0, axis_min)
+    if chart.empty:
+        return None
 
-    fig, ax = plt.subplots(figsize=(6.5, 5.5))
+    # -----------------------------------------------------
+    # 각 요소의 최종 점수 기여도 계산
+    #
+    # 현재 우선검토점수 =
+    # 각 점수 평균 × 100
+    #
+    # 4개 지표라면 각각 최대 25점
+    # -----------------------------------------------------
+    weight = 100 / len(available_cols)
 
-    ax.barh(chart[name_column], chart['우선검토점수'])
+    contribution_cols = []
 
-    ax.set_xlim(axis_min, 100)
+    for col in available_cols:
+        contribution_col = f"{col}_기여도"
+        chart[contribution_col] = chart[col] * weight
+        contribution_cols.append(contribution_col)
 
-    ax.set_xlabel('우선검토점수')
+    # -----------------------------------------------------
+    # 그래프
+    # -----------------------------------------------------
+    fig, ax = plt.subplots(figsize=(7.5, 6))
 
+    left = np.zeros(len(chart))
+
+    # cividis에서 4개 색상 추출
+    cmap = plt.get_cmap("cividis")
+    colors = np.linspace(0.15, 0.9, len(available_cols))
+
+    for col, label, color_value in zip(
+        contribution_cols,
+        [
+            score_labels[score_cols.index(col.replace("_기여도", ""))]
+            for col in contribution_cols
+        ],
+        colors,
+    ):
+        values = chart[col].to_numpy()
+
+        ax.barh(
+            chart[name_column],
+            values,
+            left=left,
+            label=label,
+            color=cmap(color_value),
+        )
+
+        left += values
+
+    # 최종 점수 표시
+    for i, score in enumerate(chart["우선검토점수"]):
+        ax.text(
+            score + 0.8,
+            i,
+            f"{score:.1f}",
+            va="center",
+            fontsize=8,
+        )
+
+    ax.set_xlim(0, 100)
+    ax.set_xlabel("우선검토점수")
     ax.set_title(title, fontsize=12)
 
-    ax.grid(axis='x', alpha=0.2)
+    ax.legend(
+        title="평가요소",
+        bbox_to_anchor=(1.02, 1),
+        loc="upper left",
+    )
+
+    ax.grid(
+        axis="x",
+        alpha=0.2,
+    )
 
     plt.tight_layout()
 
