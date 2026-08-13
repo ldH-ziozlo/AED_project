@@ -419,14 +419,15 @@ with right_col:
 
 
 st.divider()
-
-k7, k8 = st.columns(2)
-
 st.header('3. AED 배치 취약성 핵심 지표')
 
-k7.metric('65세 이상 인구', f'{elderly_population:,.0f}명')
+k7, k8, k9 = st.columns(3)
+
+k7.metric("접근 취약성", f"{100 - access_rate:.1f}%")
 
 k8.metric(f'{distance}m 미접근 인구', f'{unaccess_population:,.0f}명')
+
+k9.metric('65세 이상 인구', f'{elderly_population:,.0f}명')
 
 st.divider()
 
