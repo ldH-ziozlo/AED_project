@@ -382,8 +382,6 @@ st.divider()
 
 st.header('2. 서울 AED 접근성')
 
-st.caption('밝을수록 AED 접근률이 높은 지역입니다. 접근률이 낮은 지역은 상대적으로 AED 접근 취약지역으로 볼 수 있습니다.')
-
 left_col, right_col = st.columns([1, 1], gap='medium')
 
 with left_col:
@@ -421,14 +419,13 @@ with right_col:
         st.pyplot(access_bar_fig, use_container_width=True)
 
 
+st.divider()
 
 st.metric('65세 이상 인구', f'{elderly_population:,.0f}명')
 
 st.divider()
 
 st.header('3. AED 추가 설치 우선 검토지역')
-
-st.caption('우선검토점수는 300m 접근성, 300m 미접근 인구, 인구 규모, 65세 이상 인구를 종합한 점수입니다. 사이드바의 접근거리 선택과 관계없이 동일한 기준을 유지합니다.')
 
 if selected_district == "서울 전체":
 
