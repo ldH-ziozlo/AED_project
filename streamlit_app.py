@@ -55,12 +55,10 @@ for file in required_files:
 
         st.stop()
 
-
 @st.cache_resource
 def load_geo(path):
 
     return gpd.read_file(path)
-
 
 @st.cache_data
 def load_aed():
@@ -423,7 +421,7 @@ st.header('3. AED 배치 취약성 핵심 지표')
 
 k7, k8, k9 = st.columns(3)
 
-k7.metric("접근 취약성", f"{100 - access_rate:.1f}%")
+k7.metric("접근 취약률", f"{100 - access_rate:.1f}%")
 
 k8.metric(f'{distance}m 미접근 인구', f'{unaccess_population:,.0f}명')
 
