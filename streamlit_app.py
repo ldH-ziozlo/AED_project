@@ -275,7 +275,7 @@ def draw_priority_bar(data, name_column, title, top_n):
 
     ax.legend(title="평가요소", bbox_to_anchor=(1.02, 1), loc="upper left",)
 
-    ax.grid(axis="x", alpha=0.2,)
+    ax.grid(axis="x", alpha=0.2)
 
     plt.tight_layout()
 
@@ -416,7 +416,7 @@ with right_col:
 
         access_bar_title = f'{selected_district} 행정동별 AED {distance}m 접근률'
 
-    access_bar_fig = draw_access_bar(data=access_bar_data, rate_column=rate_col, name_column=access_bar_name, title=access_bar_title, cividis_yellow = plt.get_cmap("cividis")(0.85))
+    access_bar_fig = draw_access_bar(data=access_bar_data, rate_column=rate_col, name_column=access_bar_name, title=access_bar_title)
 
     if access_bar_fig is not None:
 
