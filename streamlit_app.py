@@ -419,14 +419,18 @@ with right_col:
 
 
 st.divider()
+
 k7, k8 = st.columns(2)
 
+st.header('3. AED 배치 취약성 핵심 지표')
+
 k7.metric('65세 이상 인구', f'{elderly_population:,.0f}명')
+
 k8.metric(f'{distance}m 미접근 인구', f'{unaccess_population:,.0f}명')
 
 st.divider()
 
-st.header('3. AED 추가 설치 우선 검토지역')
+st.header('4. AED 추가 설치 우선 검토지역')
 
 if selected_district == "서울 전체":
 
