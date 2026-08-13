@@ -136,7 +136,7 @@ def draw_access_map(data, rate_column, label_column, title,):
     fig, ax = plt.subplots(figsize=(6.5, 6))
 
     map_data.plot(column = rate_column, cmap="cividis", legend=True, ax=ax, edgecolor="white", linewidth=0.6,
-        vmin=color_min, vmax=100, legend_kwds={"label" : "AED 접근율 (%)", "shrink" : 0.65,},
+        vmin=color_min, vmax=100, legend_kwds={"label" : "AED 접근률 (%)", "shrink" : 0.65,},
     )
 
 
@@ -177,7 +177,7 @@ def draw_access_bar(data, rate_column, name_column, title,):
 
     ax.set_xlim(axis_min, 100)
 
-    ax.set_xlabel('접근율 (%)')
+    ax.set_xlabel('접근률 (%)')
 
     ax.set_title(title, fontsize=12)
 
@@ -286,7 +286,7 @@ st.sidebar.header('분석 설정')
 
 distance = st.sidebar.radio('AED 접근거리', ACCESS_DISTANCES, index=2, horizontal=True)
 
-rate_col = f'{distance}m_접근율'
+rate_col = f'{distance}m_접근률'
 
 access_col = f'접근{distance}m_인구'
 
@@ -367,7 +367,7 @@ k1.metric('AED 설치 대수', f'{aed_count:,.0f}대')
 
 k2.metric(f'{distance}m 접근 가능 인구', f'{access_population:,.0f}명')
 
-k3.metric(f'{distance}m 접근율', f'{access_rate:.1f}%' if pd.notna(access_rate) else '-')
+k3.metric(f'{distance}m 접근률', f'{access_rate:.1f}%' if pd.notna(access_rate) else '-')
 
 k4.metric(f'{distance}m 미접근 인구', f'{unaccess_population:,.0f}명')
 
@@ -385,14 +385,14 @@ st.divider()
 
 st.header('2. 서울 AED 접근성')
 
-st.caption('밝을수록 AED 접근율이 높은 지역입니다. 접근율이 낮은 지역은 상대적으로 AED 접근 취약지역으로 볼 수 있습니다.')
+st.caption('밝을수록 AED 접근률이 높은 지역입니다. 접근률이 낮은 지역은 상대적으로 AED 접근 취약지역으로 볼 수 있습니다.')
 
 left_col, right_col = st.columns([1, 1], gap='medium')
 
 with left_col:
 
     access_map_fig = draw_access_map(data=access_map_data, rate_column=rate_col, label_column=access_label_col,
-        title=(f"{selected_district} " f"AED {distance}m 접근율"),
+        title=(f"{selected_district} " f"AED {distance}m 접근률"),
     )
 
     if access_map_fig is not None:
@@ -407,7 +407,7 @@ with right_col:
 
         access_bar_name = '시군구명'
 
-        access_bar_title = f'자치구별 AED {distance}m 접근율'
+        access_bar_title = f'자치구별 AED {distance}m 접근률'
 
     else:
 
@@ -415,7 +415,7 @@ with right_col:
 
         access_bar_name = '행정동명'
 
-        access_bar_title = f'{selected_district} 행정동별 AED {distance}m 접근율'
+        access_bar_title = f'{selected_district} 행정동별 AED {distance}m 접근률'
 
     access_bar_fig = draw_access_bar(data=access_bar_data, rate_column=rate_col, name_column=access_bar_name, title=access_bar_title)
 
@@ -501,7 +501,7 @@ if (
 
     st.info(
         f"""
-        현재 {distance}m 기준 접근율이 가장 낮은 지역은
+        현재 {distance}m 기준 접근률이 가장 낮은 지역은
         {lowest_region[access_bar_name]}
         ({lowest_region[rate_col]:.1f}%)입니다.
 
@@ -509,7 +509,7 @@ if (
         {priority_region[priority_bar_name]}
         ({priority_region["우선검토점수"]:.1f}점)입니다.
 
-        접근율만 낮은 지역과 실제 추가 설치 우선지역은
+        접근률만 낮은 지역과 실제 추가 설치 우선지역은
         인구 규모와 65세 이상 인구를 함께 고려하기 때문에
         서로 다르게 나타날 수 있습니다.
         """

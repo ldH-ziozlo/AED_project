@@ -450,7 +450,7 @@ def calculate_accessibility(census, aed_unique):
 
     for distance in ACCESS_DISTANCES:
 
-        access[f'{distance}m_접근율'] = np.where(access['격자인구'] > 0, access[f'접근{distance}m_인구'] / access['격자인구'] * 100, np.nan)
+        access[f'{distance}m_접근률'] = np.where(access['격자인구'] > 0, access[f'접근{distance}m_인구'] / access['격자인구'] * 100, np.nan)
 
         access[f'{distance}m_미접근인구'] = access['격자인구'] - access[f'접근{distance}m_인구']
 
@@ -494,7 +494,7 @@ def calculate_priority_score(data):
 
     df = data.copy()
 
-    df['접근성취약점수'] = 1 - df['300m_접근율'].fillna(100) / 100
+    df['접근성취약점수'] = 1 - df['300m_접근률'].fillna(100) / 100
 
     df['미접근인구점수'] = df['300m_미접근인구'].fillna(0).rank(pct=True)
 
@@ -532,7 +532,7 @@ def make_dong_summary(seoul, dong_boundary):
 
     for distance in ACCESS_DISTANCES:
 
-        dong_result[f'{distance}m_접근율'] = np.where(dong_result['격자인구'] > 0, dong_result[f'접근{distance}m_인구'] / dong_result['격자인구'] * 100, np.nan)
+        dong_result[f'{distance}m_접근률'] = np.where(dong_result['격자인구'] > 0, dong_result[f'접근{distance}m_인구'] / dong_result['격자인구'] * 100, np.nan)
 
         dong_result[f'{distance}m_미접근인구'] = dong_result['격자인구'] - dong_result[f'접근{distance}m_인구']
 
@@ -578,7 +578,7 @@ def make_sigungu_summary(seoul, sigungu_boundary):
 
     for distance in ACCESS_DISTANCES:
 
-        result[f'{distance}m_접근율'] = np.where(result['격자인구'] > 0, result[f'접근{distance}m_인구'] / result['격자인구'] * 100, np.nan)
+        result[f'{distance}m_접근률'] = np.where(result['격자인구'] > 0, result[f'접근{distance}m_인구'] / result['격자인구'] * 100, np.nan)
 
         result[f'{distance}m_미접근인구'] = result['격자인구'] - result[f'접근{distance}m_인구']
 
@@ -710,7 +710,7 @@ def validate_results(national, seoul, dong_result, sigungu_result):
 
             rate = np.nan
 
-        print(f'서울 {distance}m 접근율:', f'{rate:.2f}%')
+        print(f'서울 {distance}m 접근률:', f'{rate:.2f}%')
 
 def main():
 
